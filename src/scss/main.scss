@@ -1,0 +1,14 @@
+@import "node_modules/normalize.css/normalize";
+@import "variables";
+@import "mixins";
+@import "scaffolding";
+
+body {
+  background-color: #5c5c5c;
+}
+
+#scene {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
