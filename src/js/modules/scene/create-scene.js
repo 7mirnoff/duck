@@ -45,7 +45,9 @@ const createScene = () => {
   APP.duck = models['plasticDuck']
   APP.scene.add(APP.duck)
   APP.duck.position.set(0, settingWorld.size, 0)
-
+  APP.duck.children.forEach((mesh) => {
+    mesh.rotation.y = Math.PI / 2
+  })
 
   const cameraPosition = APP.duck.position.clone().addScalar(1)
   APP.camera.position.set(0, cameraPosition.y, -cameraPosition.z)
