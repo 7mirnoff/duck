@@ -31,6 +31,11 @@ const rendering = () => {
   const animate = () => {
     window.requestAnimationFrame(animate)
     stats.begin()
+
+    for (const f in APP.animationPool) {
+      APP.animationPool[f]()
+    }
+
     render()
     stats.end()
   }

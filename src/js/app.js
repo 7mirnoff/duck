@@ -1,3 +1,5 @@
-const APP = {}
+const APP = {
+  animationPool: {}
+}
 
 export default APP
