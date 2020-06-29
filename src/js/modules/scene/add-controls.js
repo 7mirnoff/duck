@@ -64,8 +64,7 @@ const addKeyboardConrols = () => {
 
   window.addEventListener('keyup', (evt) => {
     pressed.delete(evt.code)
-    // APP.world.rotation.normalize()
-    // APP.relief.rotation.normalize()
+
   })
 }
 
