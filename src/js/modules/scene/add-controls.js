@@ -12,7 +12,7 @@ const directionMap = {
 
 const SPEED_RORATION_DUCK = 0.04
 const MAX_SPREED_DUCK = 180
-APP.speedDuck = 1
+APP.speedDuck = 0
 
 const addKeyboardConrols = () => {
   const pressed = new Set()
@@ -34,20 +34,25 @@ const addKeyboardConrols = () => {
 
   const makeAnimationStep = () => {
     moveDuck()
-  }
-  APP.animationPool['move'] = makeAnimationStep
-
-  window.addEventListener('keydown', (evt) => {
-    pressed.add(evt.key)
 
     for (const code in directionMap) {
+      if (!pressed.has('ArrowUp') && !pressed.has('ArrowDown')) {
+        if (APP.speedDuck > 0) {
+          APP.speedDuck -= 0.0025
+        }
+
+        if (APP.speedDuck < 0) {
+          APP.speedDuck += 0.0025
+        }
+      }
+
       if (pressed.has(directionMap[code])) {
         switch (code) {
           case 'top':
-
+            APP.speedDuck = APP.speedDuck <= 1 ? APP.speedDuck += 0.02 : 1
             break
           case 'bottom':
-
+            APP.speedDuck = APP.speedDuck >= -0.4 ? APP.speedDuck -= 0.02 : -0.4
             break
           case 'left':
             rotateAroundWorldAxis(APP.duck, 'y', SPEED_RORATION_DUCK)
@@ -57,9 +62,16 @@ const addKeyboardConrols = () => {
             rotateAroundWorldAxis(APP.duck, 'y', -SPEED_RORATION_DUCK)
             APP.duck.getWorldDirection(APP.worldDirectionDuck)
             break
+          default:
+            break
         }
       }
     }
+  }
+  APP.animationPool['move'] = makeAnimationStep
+
+  window.addEventListener('keydown', (evt) => {
+    pressed.add(evt.key)
   })
 
   window.addEventListener('keyup', (evt) => {
