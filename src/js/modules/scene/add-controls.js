@@ -59,12 +59,16 @@ const addKeyboardConrols = () => {
         }
       }
 
-      checkCollision()
+      let isCollision = checkCollision()
 
       if (pressed.has(directionMap[code])) {
         switch (code) {
           case 'top':
-            APP.speedDuck = APP.speedDuck <= 1 ? APP.speedDuck += 0.02 : 1
+            if (!isCollision) {
+              APP.speedDuck = APP.speedDuck <= 1 ? APP.speedDuck += 0.02 : 1
+            } else {
+              APP.speedDuck = 0
+            }
             break
           case 'bottom':
             APP.speedDuck = APP.speedDuck >= -0.4 ? APP.speedDuck -= 0.02 : -0.4

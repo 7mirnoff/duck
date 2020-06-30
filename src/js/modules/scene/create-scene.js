@@ -68,9 +68,9 @@ const createScene = () => {
     // envMap: envMap,
     // envMapIntensity: envMapIntensity
   })
-  APP.obj = new THREE.Mesh(ObjGeometry, ObjMaterial)
-  APP.scene.add(APP.obj)
-  APP.obj.position.set(0, settingWorld.size, 0)
+  APP.physDuck = new THREE.Mesh(ObjGeometry, ObjMaterial)
+  APP.scene.add(APP.physDuck)
+  APP.physDuck.position.set(0, settingWorld.size, 0)
 
 
 
