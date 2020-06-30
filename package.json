@@ -46,7 +46,7 @@
     "webpack-stream": "^5.2.1"
   },
   "dependencies": {
-    "animejs": "^3.0.1",
+    "animejs": "^3.2.0",
     "normalize.css": "8.0.1",
     "stats.js": "^0.17.0",
     "three": "^0.104.0",

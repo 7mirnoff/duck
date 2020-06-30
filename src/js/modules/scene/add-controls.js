@@ -1,7 +1,8 @@
 import APP from '../../app'
 import * as THREE from 'three'
 import { rotateAroundWorldAxis } from '../utils/rotate-around-world'
-import { Vector3 } from 'three'
+import { checkCollision } from './check-collision'
+import anime from 'animejs'
 
 const directionMap = {
   left: 'ArrowLeft',
@@ -13,6 +14,7 @@ const directionMap = {
 const SPEED_RORATION_DUCK = 0.04
 const MAX_SPREED_DUCK = 180
 APP.speedDuck = 0
+APP.speedRotate = 0
 
 const addKeyboardConrols = () => {
   const pressed = new Set()
@@ -29,11 +31,13 @@ const addKeyboardConrols = () => {
   }
 
   const rotateDuck = () => {
-
+    rotateAroundWorldAxis(APP.duck, 'y', APP.speedRotate)
+    APP.duck.getWorldDirection(APP.worldDirectionDuck)
   }
 
-  const makeAnimationStep = () => {
+  const makeAnimationMove = () => {
     moveDuck()
+    rotateDuck()
 
     for (const code in directionMap) {
       if (!pressed.has('ArrowUp') && !pressed.has('ArrowDown')) {
@@ -46,6 +50,18 @@ const addKeyboardConrols = () => {
         }
       }
 
+      if (!pressed.has('ArrowLeft') && !pressed.has('ArrowRight')) {
+        if (APP.speedRotate > 0) {
+          APP.speedRotate -= 0.0001
+        }
+
+        if (APP.speedRotate < 0) {
+          APP.speedRotate += 0.0001
+        }
+      }
+
+      // checkCollision()
+
       if (pressed.has(directionMap[code])) {
         switch (code) {
           case 'top':
@@ -55,12 +71,10 @@ const addKeyboardConrols = () => {
             APP.speedDuck = APP.speedDuck >= -0.4 ? APP.speedDuck -= 0.02 : -0.4
             break
           case 'left':
-            rotateAroundWorldAxis(APP.duck, 'y', SPEED_RORATION_DUCK)
-            APP.duck.getWorldDirection(APP.worldDirectionDuck)
+            APP.speedRotate = APP.speedRotate <= 0.02 ? APP.speedRotate += 0.0015 : 0.02
             break
           case 'right':
-            rotateAroundWorldAxis(APP.duck, 'y', -SPEED_RORATION_DUCK)
-            APP.duck.getWorldDirection(APP.worldDirectionDuck)
+            APP.speedRotate = APP.speedRotate >= -0.02 ? APP.speedRotate -= 0.0015 : -0.02
             break
           default:
             break
@@ -68,7 +82,7 @@ const addKeyboardConrols = () => {
       }
     }
   }
-  APP.animationPool['move'] = makeAnimationStep
+  APP.animationPool['move'] = makeAnimationMove
 
   window.addEventListener('keydown', (evt) => {
     pressed.add(evt.key)
