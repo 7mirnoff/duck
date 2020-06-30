@@ -11,7 +11,6 @@ const directionMap = {
   bottom: 'ArrowDown'
 }
 
-const SPEED_RORATION_DUCK = 0.04
 const MAX_SPREED_DUCK = 180
 APP.speedDuck = 0
 APP.speedRotate = 0

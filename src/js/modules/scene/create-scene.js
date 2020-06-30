@@ -40,6 +40,7 @@ const createScene = () => {
   APP.scene.add(APP.world)
 
   APP.relief = models['relef']
+  console.log(APP.relief);
   APP.scene.add(APP.relief)
 
   APP.duck = models['plasticDuck']
