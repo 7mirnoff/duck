@@ -59,7 +59,7 @@ const addKeyboardConrols = () => {
         }
       }
 
-      // checkCollision()
+      checkCollision()
 
       if (pressed.has(directionMap[code])) {
         switch (code) {
