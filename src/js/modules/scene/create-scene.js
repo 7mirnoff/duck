@@ -18,10 +18,6 @@ const settingWorld = {
 const createScene = () => {
   addGridHelper()
   addLight()
-  // for (const model in models) {
-  //   APP.scene.add(models[model])
-  // }
-
 
   const WorldGeometry = new THREE.SphereGeometry(settingWorld.size, 70, 70)
   const WorldMaterial = new THREE.MeshStandardMaterial({
@@ -29,12 +25,6 @@ const createScene = () => {
 
     roughness: 1,
     metalness: 1
-
-    // roughnessMap: roughnessMap,
-    // metalnessMap: metalnessMap,
-
-    // envMap: envMap,
-    // envMapIntensity: envMapIntensity
   })
   APP.world = new THREE.Mesh(WorldGeometry, WorldMaterial)
   APP.scene.add(APP.world)
@@ -47,37 +37,25 @@ const createScene = () => {
 
   APP.duck = models['plasticDuck']
   APP.scene.add(APP.duck)
-  APP.duck.position.set(0, settingWorld.size, 0)
+  APP.duck.position.set(0, settingWorld.size - 0.02, 0)
   APP.duck.children.forEach((mesh) => {
     mesh.rotation.y = Math.PI / 2
   })
 
-
-
-  const physDuckGeometry = new THREE.SphereGeometry(0.1, 2, 2)
+  const physDuckGeometry = new THREE.BoxGeometry(0.06, 0.06, 0.06)
   const physDuckMaterial = new THREE.MeshStandardMaterial({
     color: 0x0000FF,
 
     roughness: 1,
     metalness: 1
-
-    // roughnessMap: roughnessMap,
-    // metalnessMap: metalnessMap,
-
-    // envMap: envMap,
-    // envMapIntensity: envMapIntensity
   })
   APP.physDuck = new THREE.Mesh(physDuckGeometry, physDuckMaterial)
   APP.scene.add(APP.physDuck)
   APP.physDuck.position.set(0, settingWorld.size, 0)
 
-
-
-
   const cameraPosition = APP.duck.position.clone().addScalar(1)
   APP.camera.position.set(0, cameraPosition.y, -cameraPosition.z)
   APP.camera.lookAt(APP.duck.position)
-
 
   addKeyboardConrols()
 }

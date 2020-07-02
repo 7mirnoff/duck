@@ -42,10 +42,17 @@ const addKeyboardConrols = () => {
 
     if (checkCollision() && !APP.isStopControl) {
       APP.isStopControl = true
+
       anime({
         targets: APP,
-        speedDuck: [0, -APP.speedDuck * 1.2, 0],
-        easing: 'easeInOutCubic',
+        speedDuck: [-APP.speedDuck * 0.3, 0],
+        speedRotate: 0,
+        easing: 'easeInQuart',
+        duration: 400,
+        changeBegin: () => {
+          APP.speedDuck = 0
+          APP.speedRotate = -APP.speedRotate
+        },
         complete: () => {
           APP.isStopControl = false
         }
