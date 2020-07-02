@@ -41,7 +41,6 @@ const createScene = () => {
 
   APP.relief = models['relef']
   APP.collidableMeshList = []
-  console.log(APP.relief.children[0]);
   APP.collidableMeshList.push(APP.relief.children[0].children[2].children[1])
   APP.collidableMeshList.push(APP.relief.children[0].children[1].children[0])
   APP.scene.add(APP.relief)
@@ -55,8 +54,8 @@ const createScene = () => {
 
 
 
-  const ObjGeometry = new THREE.SphereGeometry(0.1, 2, 2)
-  const ObjMaterial = new THREE.MeshStandardMaterial({
+  const physDuckGeometry = new THREE.SphereGeometry(0.1, 2, 2)
+  const physDuckMaterial = new THREE.MeshStandardMaterial({
     color: 0x0000FF,
 
     roughness: 1,
@@ -68,7 +67,7 @@ const createScene = () => {
     // envMap: envMap,
     // envMapIntensity: envMapIntensity
   })
-  APP.physDuck = new THREE.Mesh(ObjGeometry, ObjMaterial)
+  APP.physDuck = new THREE.Mesh(physDuckGeometry, physDuckMaterial)
   APP.scene.add(APP.physDuck)
   APP.physDuck.position.set(0, settingWorld.size, 0)
 

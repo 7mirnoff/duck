@@ -34,53 +34,63 @@ const addKeyboardConrols = () => {
     APP.duck.getWorldDirection(APP.worldDirectionDuck)
   }
 
+  APP.isStopControl = false
+
   const makeAnimationMove = () => {
     moveDuck()
     rotateDuck()
 
-    for (const code in directionMap) {
-      if (!pressed.has('ArrowUp') && !pressed.has('ArrowDown')) {
-        if (APP.speedDuck > 0) {
-          APP.speedDuck -= 0.0025
+    if (checkCollision() && !APP.isStopControl) {
+      APP.isStopControl = true
+      anime({
+        targets: APP,
+        speedDuck: [0, -APP.speedDuck * 1.2, 0],
+        easing: 'easeInOutCubic',
+        complete: () => {
+          APP.isStopControl = false
+        }
+      })
+    }
+
+    if (!APP.isStopControl) {
+      for (const code in directionMap) {
+        if (!pressed.has('ArrowUp') && !pressed.has('ArrowDown')) {
+          if (APP.speedDuck > 0) {
+            APP.speedDuck -= 0.0025
+          }
+
+          if (APP.speedDuck < 0) {
+            APP.speedDuck += 0.0025
+          }
         }
 
-        if (APP.speedDuck < 0) {
-          APP.speedDuck += 0.0025
+        if (!pressed.has('ArrowLeft') && !pressed.has('ArrowRight')) {
+          if (APP.speedRotate > 0) {
+            APP.speedRotate -= 0.0001
+          }
+
+          if (APP.speedRotate < 0) {
+            APP.speedRotate += 0.0001
+          }
         }
-      }
 
-      if (!pressed.has('ArrowLeft') && !pressed.has('ArrowRight')) {
-        if (APP.speedRotate > 0) {
-          APP.speedRotate -= 0.0001
-        }
-
-        if (APP.speedRotate < 0) {
-          APP.speedRotate += 0.0001
-        }
-      }
-
-      let isCollision = checkCollision()
-
-      if (pressed.has(directionMap[code])) {
-        switch (code) {
-          case 'top':
-            if (!isCollision) {
+        if (pressed.has(directionMap[code])) {
+          switch (code) {
+            case 'top':
               APP.speedDuck = APP.speedDuck <= 1 ? APP.speedDuck += 0.02 : 1
-            } else {
-              APP.speedDuck = 0
-            }
-            break
-          case 'bottom':
-            APP.speedDuck = APP.speedDuck >= -0.4 ? APP.speedDuck -= 0.02 : -0.4
-            break
-          case 'left':
-            APP.speedRotate = APP.speedRotate <= 0.02 ? APP.speedRotate += 0.0015 : 0.02
-            break
-          case 'right':
-            APP.speedRotate = APP.speedRotate >= -0.02 ? APP.speedRotate -= 0.0015 : -0.02
-            break
-          default:
-            break
+              break
+            case 'bottom':
+              APP.speedDuck = APP.speedDuck >= -0.4 ? APP.speedDuck -= 0.02 : -0.4
+              break
+            case 'left':
+              APP.speedRotate = APP.speedRotate <= 0.02 ? APP.speedRotate += 0.0015 : 0.02
+              break
+            case 'right':
+              APP.speedRotate = APP.speedRotate >= -0.02 ? APP.speedRotate -= 0.0015 : -0.02
+              break
+            default:
+              break
+          }
         }
       }
     }
