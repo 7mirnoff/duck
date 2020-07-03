@@ -8,8 +8,11 @@ let models = {}
 
 const sourses = [
   '/assets/models/duck.json',
-  '/assets/models/relef.json'
+  '/assets/models/relef.json',
+  '/assets/models/planet-objects.json'
 ]
+
+let loadCounter = 0
 
 const loadModels = (cb) => {
   sourses.forEach((sourse, index) => {
@@ -23,10 +26,12 @@ const loadModels = (cb) => {
       // resource URL
       src,
       // called when the resource is loaded
-      function (gltf) {
-        models[gltf.name] = gltf
+      function (data) {
+        models[data.name] = data
 
-        if (sourses.length === index + 1) {
+        loadCounter++
+
+        if (sourses.length === loadCounter) {
           cb()
         }
       },

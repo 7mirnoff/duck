@@ -22,11 +22,29 @@ const addKeyboardConrols = () => {
 
   APP.worldDirectionDuck = APP.duck.getWorldDirection()
 
+  APP.resetMatrixWorld = APP.relief.matrix
+  const resetPosition = (object) => {
+    APP.speedDuck = 0
+    APP.speedRotate = 0
+    const currentPos = new THREE.Vector4(object.position.x, object.position.y, object.position.z, 1)
+    const newPos = currentPos.applyMatrix4(APP.resetMatrixWorld)
+
+    object.matrix = APP.resetMatrixWorld
+    object.rotation.setFromRotationMatrix(object.matrix)
+
+    object.position.x = newPos.x
+    object.position.y = newPos.y
+    object.position.z = newPos.z
+  }
+
   const moveDuck = () => {
     rotateAroundWorldAxis(APP.world, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
     rotateAroundWorldAxis(APP.relief, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
     rotateAroundWorldAxis(APP.world, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
     rotateAroundWorldAxis(APP.relief, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
+    rotateAroundWorldAxis(APP.planetObjets, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
+    rotateAroundWorldAxis(APP.planetObjets, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
+
   }
 
   const rotateDuck = () => {
@@ -42,17 +60,10 @@ const addKeyboardConrols = () => {
 
     if (checkCollision() && !APP.isStopControl) {
       APP.isStopControl = true
-
       anime({
         targets: APP,
-        speedDuck: [-APP.speedDuck * 0.3, 0],
-        speedRotate: 0,
-        easing: 'easeInQuart',
-        duration: 400,
-        changeBegin: () => {
-          APP.speedDuck = 0
-          APP.speedRotate = -APP.speedRotate
-        },
+        speedDuck: [0, -APP.speedDuck * 1.2, 0],
+        easing: 'easeInOutCubic',
         complete: () => {
           APP.isStopControl = false
         }
@@ -106,6 +117,12 @@ const addKeyboardConrols = () => {
 
   window.addEventListener('keydown', (evt) => {
     pressed.add(evt.key)
+    console.log(evt.keyCode);
+    if (evt.keyCode === 82) {
+      resetPosition(APP.relief)
+      resetPosition(APP.world)
+      resetPosition(APP.planetObjets)
+    }
   })
 
   window.addEventListener('keyup', (evt) => {

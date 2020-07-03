@@ -26,8 +26,12 @@ const createScene = () => {
     roughness: 1,
     metalness: 1
   })
+
   APP.world = new THREE.Mesh(WorldGeometry, WorldMaterial)
   APP.scene.add(APP.world)
+
+  APP.planetObjets = models['planet-objects']
+  APP.scene.add(APP.planetObjets)
 
   APP.relief = models['relef']
   APP.collidableMeshList = []
