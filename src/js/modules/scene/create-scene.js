@@ -9,7 +9,6 @@ import {
 } from '../loader-models'
 
 import { lerp } from '../utils/lerp'
-import { Object3D } from 'three'
 
 const settingWorld = {
   size: 1.6
@@ -43,7 +42,9 @@ const createScene = () => {
   APP.scene.add(APP.duck)
   APP.duck.position.set(0, settingWorld.size - 0.02, 0)
   APP.duck.children.forEach((mesh) => {
-    mesh.rotation.y = Math.PI / 2
+    console.log(mesh);
+    mesh.rotation.z = -Math.PI / 2
+    mesh.rotation.x = Math.PI / 2
   })
 
   const physDuckGeometry = new THREE.BoxGeometry(0.06, 0.06, 0.06)
