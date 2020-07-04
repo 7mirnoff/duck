@@ -4,8 +4,8 @@ import { addGridHelper } from '../utils/grid-helper'
 import { addLight } from './add-light'
 import { addKeyboardConrols } from './add-controls'
 
-import { vShaderAtmo } from './shader/v-atmospher.vert'
-import { fShaderAtmo } from './shader/f-atmospher.frag'
+import vShaderAtmo from './shader/v-atmospher.vert'
+import fShaderAtmo from './shader/f-atmospher.frag'
 
 import {
   models
@@ -41,6 +41,8 @@ const createScene = () => {
     transparent: true
   })
 
+  console.log(vShaderAtmo);
+
   APP.worldAtmosphere = new THREE.Mesh(WorldGeometry, worldAtmosphereMaterial)
   APP.worldAtmosphere.scale.x = APP.worldAtmosphere.scale.y = APP.worldAtmosphere.scale.z = 1.2
   APP.scene.add(APP.worldAtmosphere)
@@ -58,7 +60,6 @@ const createScene = () => {
   APP.scene.add(APP.duck)
   APP.duck.position.set(0, settingWorld.size - 0.02, 0)
   APP.duck.children.forEach((mesh) => {
-    console.log(mesh);
     mesh.rotation.z = -Math.PI / 2
     mesh.rotation.x = Math.PI / 2
   })
