@@ -4,6 +4,9 @@ import { addGridHelper } from '../utils/grid-helper'
 import { addLight } from './add-light'
 import { addKeyboardConrols } from './add-controls'
 
+import { vShaderAtmo } from './shader/v-atmospher.vert'
+import { fShaderAtmo } from './shader/f-atmospher.frag'
+
 import {
   models
 } from '../loader-models'
@@ -28,6 +31,19 @@ const createScene = () => {
 
   APP.world = new THREE.Mesh(WorldGeometry, WorldMaterial)
   APP.scene.add(APP.world)
+
+  const worldAtmosphereMaterial = new THREE.ShaderMaterial({
+    uniforms: {},
+    vertexShader: vShaderAtmo,
+    fragmentShader: fShaderAtmo,
+    side: THREE.BackSide,
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  })
+
+  APP.worldAtmosphere = new THREE.Mesh(WorldGeometry, worldAtmosphereMaterial)
+  APP.worldAtmosphere.scale.x = APP.worldAtmosphere.scale.y = APP.worldAtmosphere.scale.z = 1.2
+  APP.scene.add(APP.worldAtmosphere)
 
   APP.planetObjets = models['planet-objects']
   APP.scene.add(APP.planetObjets)
