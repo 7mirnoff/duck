@@ -33,7 +33,12 @@ const createScene = () => {
   APP.scene.add(APP.world)
 
   const worldAtmosphereMaterial = new THREE.ShaderMaterial({
-    uniforms: {},
+    uniforms: {
+      viewVector: {
+        type: 'v3',
+        value: APP.camera.position
+      }
+    },
     vertexShader: vShaderAtmo,
     fragmentShader: fShaderAtmo,
     side: THREE.BackSide,
@@ -41,11 +46,15 @@ const createScene = () => {
     transparent: true
   })
 
-  console.log(vShaderAtmo);
-
   APP.worldAtmosphere = new THREE.Mesh(WorldGeometry, worldAtmosphereMaterial)
   APP.worldAtmosphere.scale.x = APP.worldAtmosphere.scale.y = APP.worldAtmosphere.scale.z = 1.2
   APP.scene.add(APP.worldAtmosphere)
+
+  const updateScene = () => {
+    APP.worldAtmosphere.material.uniforms.viewVector.value = new THREE.Vector3().subVectors(APP.camera.position, APP.worldAtmosphere.position)
+  }
+
+  APP.animationPool['update-scene'] = updateScene
 
   APP.planetObjets = models['planet-objects']
   APP.scene.add(APP.planetObjets)
