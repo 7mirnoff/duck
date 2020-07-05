@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import APP from '../../app'
 
 import { stats } from '../utils/add-stats'
@@ -13,16 +14,25 @@ const rendering = () => {
     alpha: true,
     antialias: true
   })
-
   APP.renderer.setSize(window.innerWidth, window.innerHeight)
   APP.renderer.setPixelRatio(2)
+  APP.composer = new EffectComposer(APP.renderer)
 
   const size = APP.renderer.getSize()
 
   APP.scene = new THREE.Scene()
   APP.camera = new THREE.PerspectiveCamera(50, size.x / size.y, 0.1, 1000) // в скобочках (угол обзора, порпорции экрана, параметры видимоcти обекта)
+  APP.clock = new THREE.Clock()
   APP.controls = new OrbitControls(APP.camera, APP.renderer.domElement)
-  // APP.camera.position.set(0.9, 0.5, 0)
+
+  APP.renderPass = new RenderPass(APP.scene, APP.camera)
+
+  APP.composer.addPass(APP.renderPass)
+
+  APP.effectPass = new EffectPass(APP.camera, new BloomEffect())
+  APP.effectPass.renderToScreen = true
+  APP.composer.addPass(APP.effectPass)
+
   APP.controls.noKeys = true
   // APP.controls.dispose()
 
@@ -41,7 +51,7 @@ const rendering = () => {
   }
 
   const render = () => {
-    APP.renderer.render(APP.scene, APP.camera)
+    APP.composer.render(APP.clock.getDelta())
   }
 
   animate()
