@@ -17,8 +17,8 @@ const sourses = [
   '/assets/models/planet-tree3.json',
   '/assets/models/planet-tree4.json',
   '/assets/models/planet-tree5.json',
-  '/assets/models/planet-tree6.json'
-
+  '/assets/models/planet-tree6.json',
+  '/assets/models/shrub-tree.json'
 ]
 
 let loadCounter = 0

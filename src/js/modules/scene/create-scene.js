@@ -98,12 +98,16 @@ const createScene = () => {
     zone.children.forEach((treesZone) => {
       const zoneName = treesZone.name
       treesZone.children.forEach((tree) => {
-        const currentTree = models[zoneName].clone()
+
+        let currentTree = models[zoneName].clone()
+        if ((models[zoneName].name === 'southAmericaTrees' || models[zoneName].name === 'firTrees') && Math.round(Math.random())) {
+          currentTree = models['shrub'].clone()
+        }
+
         currentTree.position.set(tree.position.x, tree.position.y, tree.position.z)
         currentTree.scale.set(tree.scale.x, tree.scale.y, tree.scale.z)
         currentTree.rotation.set(tree.rotation.x, tree.rotation.y, tree.rotation.z)
         currentTree.quaternion.set(tree.quaternion.x, tree.quaternion.y, tree.quaternion.z, tree.quaternion.w)
-        currentTree.visible = false
         APP.objectsToHide.push(currentTree)
         APP.objectsToRotate.add(currentTree)
       })
