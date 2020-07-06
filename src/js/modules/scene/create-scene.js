@@ -29,11 +29,11 @@ const createScene = () => {
     metalness: 1
   })
 
-  APP.objectToRotate = new THREE.Object3D()
+  APP.objectsToRotate = new THREE.Object3D()
+  APP.objectsToHide = []
 
   APP.world = new THREE.Mesh(WorldGeometry, WorldMaterial)
-  APP.objectToRotate.add(APP.world)
-  // APP.scene.add(APP.world)
+  APP.objectsToRotate.add(APP.world)
 
   const worldAtmosphereMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -60,15 +60,14 @@ const createScene = () => {
   APP.animationPool['update-scene'] = updateScene
 
   APP.planetObjets = models['planet-objects']
-  APP.objectToRotate.add(APP.planetObjets)
-  // APP.scene.add(APP.planetObjets)
+  APP.objectsToHide = APP.objectsToHide.concat(APP.planetObjets.children)
+  APP.objectsToRotate.add(APP.planetObjets)
 
   APP.relief = models['relef']
   APP.collidableMeshList = []
   APP.collidableMeshList.push(APP.relief.children[0].children[2].children[1])
   APP.collidableMeshList.push(APP.relief.children[0].children[1].children[0])
-  APP.objectToRotate.add(APP.relief)
-  // APP.scene.add(APP.relief)
+  APP.objectsToRotate.add(APP.relief)
 
   APP.duck = models['plasticDuck']
   APP.scene.add(APP.duck)
@@ -104,14 +103,14 @@ const createScene = () => {
         currentTree.scale.set(tree.scale.x, tree.scale.y, tree.scale.z)
         currentTree.rotation.set(tree.rotation.x, tree.rotation.y, tree.rotation.z)
         currentTree.quaternion.set(tree.quaternion.x, tree.quaternion.y, tree.quaternion.z, tree.quaternion.w)
-        APP.objectToRotate.add(currentTree)
+        currentTree.visible = false
+        APP.objectsToHide.push(currentTree)
+        APP.objectsToRotate.add(currentTree)
       })
     })
   })
-  // APP.scene.add(APP.trees)
-  // APP.scene.add(APP.treesMap)
 
-  APP.scene.add(APP.objectToRotate)
+  APP.scene.add(APP.objectsToRotate)
   addKeyboardConrols()
 
 }

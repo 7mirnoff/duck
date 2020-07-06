@@ -2,6 +2,8 @@ import APP from '../../app'
 import * as THREE from 'three'
 import { rotateAroundWorldAxis } from '../utils/rotate-around-world'
 import { checkCollision } from './check-collision'
+import { checkVisible } from './check-visible'
+
 import anime from 'animejs'
 
 const directionMap = {
@@ -38,8 +40,8 @@ const addKeyboardConrols = () => {
   }
 
   const moveDuck = () => {
-    rotateAroundWorldAxis(APP.objectToRotate, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
-    rotateAroundWorldAxis(APP.objectToRotate, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
+    rotateAroundWorldAxis(APP.objectsToRotate, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
+    rotateAroundWorldAxis(APP.objectsToRotate, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
   }
 
   const rotateDuck = () => {
@@ -52,6 +54,8 @@ const addKeyboardConrols = () => {
   const makeAnimationMove = () => {
     moveDuck()
     rotateDuck()
+
+    checkVisible()
 
     if (checkCollision() && !APP.isStopControl) {
       APP.isStopControl = true
@@ -113,9 +117,7 @@ const addKeyboardConrols = () => {
   window.addEventListener('keydown', (evt) => {
     pressed.add(evt.key)
     if (evt.keyCode === 82) {
-      resetPosition(APP.relief)
-      resetPosition(APP.world)
-      resetPosition(APP.planetObjets)
+      resetPosition(APP.objectsToRotate)
     }
   })
 
