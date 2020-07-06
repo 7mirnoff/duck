@@ -1,10 +1,12 @@
 import * as THREE from 'three'
-import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
+import { EffectComposer, RenderPass } from 'postprocessing'
 import APP from '../../app'
 
 import { stats } from '../utils/add-stats'
 
-import { createScene } from '../scene/create-scene'
+import { createScene } from './create-scene'
+import { initPostprocessing } from './postprocessing'
+
 
 const OrbitControls = require('three-orbit-controls')(THREE)
 
@@ -26,17 +28,13 @@ const rendering = () => {
   APP.controls = new OrbitControls(APP.camera, APP.renderer.domElement)
 
   APP.renderPass = new RenderPass(APP.scene, APP.camera)
-
   APP.composer.addPass(APP.renderPass)
-
-  APP.effectPass = new EffectPass(APP.camera, new BloomEffect())
-  APP.effectPass.renderToScreen = true
-  APP.composer.addPass(APP.effectPass)
 
   APP.controls.noKeys = true
   // APP.controls.dispose()
 
   createScene()
+  initPostprocessing()
 
   const animate = () => {
     window.requestAnimationFrame(animate)

@@ -29,8 +29,11 @@ const createScene = () => {
     metalness: 1
   })
 
+  APP.objectToRotate = new THREE.Object3D()
+
   APP.world = new THREE.Mesh(WorldGeometry, WorldMaterial)
-  APP.scene.add(APP.world)
+  APP.objectToRotate.add(APP.world)
+  // APP.scene.add(APP.world)
 
   const worldAtmosphereMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -57,13 +60,15 @@ const createScene = () => {
   APP.animationPool['update-scene'] = updateScene
 
   APP.planetObjets = models['planet-objects']
-  APP.scene.add(APP.planetObjets)
+  APP.objectToRotate.add(APP.planetObjets)
+  // APP.scene.add(APP.planetObjets)
 
   APP.relief = models['relef']
   APP.collidableMeshList = []
   APP.collidableMeshList.push(APP.relief.children[0].children[2].children[1])
   APP.collidableMeshList.push(APP.relief.children[0].children[1].children[0])
-  APP.scene.add(APP.relief)
+  APP.objectToRotate.add(APP.relief)
+  // APP.scene.add(APP.relief)
 
   APP.duck = models['plasticDuck']
   APP.scene.add(APP.duck)
@@ -85,10 +90,30 @@ const createScene = () => {
   APP.physDuck.position.set(0, settingWorld.size, 0)
 
   const cameraPosition = APP.duck.position.clone().addScalar(1)
-  APP.camera.position.set(0, cameraPosition.y, -cameraPosition.z)
-  APP.camera.lookAt(APP.duck.position)
+  APP.camera.position.set(0, cameraPosition.y, -cameraPosition.z - 0.1)
+  APP.camera.lookAt(APP.duck.position.x, APP.duck.position.y + 0.4, APP.duck.position.z)
 
+
+  APP.treesMap = models['planet-trees-position']
+  APP.treesMap.children.forEach((zone) => {
+    zone.children.forEach((treesZone) => {
+      const zoneName = treesZone.name
+      treesZone.children.forEach((tree) => {
+        const currentTree = models[zoneName].clone()
+        currentTree.position.set(tree.position.x, tree.position.y, tree.position.z)
+        currentTree.scale.set(tree.scale.x, tree.scale.y, tree.scale.z)
+        currentTree.rotation.set(tree.rotation.x, tree.rotation.y, tree.rotation.z)
+        currentTree.quaternion.set(tree.quaternion.x, tree.quaternion.y, tree.quaternion.z, tree.quaternion.w)
+        APP.objectToRotate.add(currentTree)
+      })
+    })
+  })
+  // APP.scene.add(APP.trees)
+  // APP.scene.add(APP.treesMap)
+
+  APP.scene.add(APP.objectToRotate)
   addKeyboardConrols()
+
 }
 
 export {

@@ -9,7 +9,16 @@ let models = {}
 const sourses = [
   '/assets/models/duck.json',
   '/assets/models/relef.json',
-  '/assets/models/planet-objects.json'
+  '/assets/models/planet-objects.json',
+
+  '/assets/models/planet-trees-position.json',
+  '/assets/models/planet-tree1.json',
+  '/assets/models/planet-tree2.json',
+  '/assets/models/planet-tree3.json',
+  '/assets/models/planet-tree4.json',
+  '/assets/models/planet-tree5.json',
+  '/assets/models/planet-tree6.json'
+
 ]
 
 let loadCounter = 0

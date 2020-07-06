@@ -38,13 +38,8 @@ const addKeyboardConrols = () => {
   }
 
   const moveDuck = () => {
-    rotateAroundWorldAxis(APP.world, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
-    rotateAroundWorldAxis(APP.relief, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
-    rotateAroundWorldAxis(APP.world, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
-    rotateAroundWorldAxis(APP.relief, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
-    rotateAroundWorldAxis(APP.planetObjets, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
-    rotateAroundWorldAxis(APP.planetObjets, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
-
+    rotateAroundWorldAxis(APP.objectToRotate, 'x', APP.worldDirectionDuck.x / MAX_SPREED_DUCK * APP.speedDuck)
+    rotateAroundWorldAxis(APP.objectToRotate, 'z', APP.worldDirectionDuck.z / MAX_SPREED_DUCK * APP.speedDuck)
   }
 
   const rotateDuck = () => {
@@ -117,7 +112,6 @@ const addKeyboardConrols = () => {
 
   window.addEventListener('keydown', (evt) => {
     pressed.add(evt.key)
-    console.log(evt.keyCode);
     if (evt.keyCode === 82) {
       resetPosition(APP.relief)
       resetPosition(APP.world)
