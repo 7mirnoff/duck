@@ -17,7 +17,7 @@ const rendering = () => {
     antialias: true
   })
   APP.renderer.setSize(window.innerWidth, window.innerHeight)
-  APP.renderer.setPixelRatio(2)
+  APP.renderer.setPixelRatio(1.5)
   APP.composer = new EffectComposer(APP.renderer)
 
   const size = APP.renderer.getSize()
