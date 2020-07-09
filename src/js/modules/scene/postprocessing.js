@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { BloomEffect, EffectPass, DepthOfFieldEffect } from 'postprocessing'
 import APP from '../../app'
 
+
+
 APP.postEffect = []
 
 const initPostprocessing = () => {

@@ -60,6 +60,9 @@ const createScene = () => {
   APP.animationPool['update-scene'] = updateScene
 
   APP.planetObjets = models['planet-objects']
+  APP.planetObjets.children.forEach((object) => {
+    object.defaultScale = new THREE.Vector3(object.scale.x, object.scale.y, object.scale.z)
+  })
   APP.objectsToHide = APP.objectsToHide.concat(APP.planetObjets.children)
   APP.objectsToRotate.add(APP.planetObjets)
 
@@ -91,7 +94,8 @@ const createScene = () => {
   const cameraPosition = APP.duck.position.clone().addScalar(1)
   APP.camera.position.set(0, cameraPosition.y, -cameraPosition.z - 0.1)
   APP.camera.lookAt(APP.duck.position.x, APP.duck.position.y + 0.4, APP.duck.position.z)
-
+  APP.controls.target = APP.duck.position
+  APP.controls.update()
 
   APP.treesMap = models['planet-trees-position']
   APP.treesMap.children.forEach((zone) => {
@@ -108,6 +112,7 @@ const createScene = () => {
         currentTree.scale.set(tree.scale.x, tree.scale.y, tree.scale.z)
         currentTree.rotation.set(tree.rotation.x, tree.rotation.y, tree.rotation.z)
         currentTree.quaternion.set(tree.quaternion.x, tree.quaternion.y, tree.quaternion.z, tree.quaternion.w)
+        currentTree.defaultScale = new THREE.Vector3(tree.scale.x, tree.scale.y, tree.scale.z)
         APP.objectsToHide.push(currentTree)
         APP.objectsToRotate.add(currentTree)
       })
