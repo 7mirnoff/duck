@@ -30,7 +30,7 @@ const rendering = () => {
   APP.renderPass = new RenderPass(APP.scene, APP.camera)
   APP.composer.addPass(APP.renderPass)
 
-  APP.controls.noKeys = true
+  APP.controls.enableKeys = false
   // APP.controls.dispose()
 
   createScene()
